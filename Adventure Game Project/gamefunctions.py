@@ -39,7 +39,7 @@ print()
 
 print(f'\nDocumentation and Strings: Part #2:')
 
-#defining the shop menu for the user. 
+#defining the shop menu for the user.
 def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Price: float):
     """
     This function prints a sign that contains a list of two items and their corresponding prices. Items are left-aligned in the menu, while the prices are right-aligned (with decimal points lining up).
@@ -70,10 +70,11 @@ print_shop_menu("Bread", .21, "Watermelon", 8.29)
 
 #Pre-October assignments below (unmodified): Defining the function purchase_item, below, with 3 parameters, and declaring their type in the process.
 #Also making quantityToPurchase default to 1 if no proper value is passed through the parameter, which shouldn't ever happen imo.
-#I had to google how to do this. I didn't know it was possible to assign value to the type within the parameters at first.
-#I initially tried defining to 1 outside of the function but it kept outputting 1 (obviously), so this had to be done.
 
 def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: int = 1):
+    """
+    This function will return the number of items purchased and the quantity of money that is remaining. If unable to afford all the items, it will only buy as many as can be afforded. Nothing is printed by the function call.
+    """
     totalPrice = (quantityToPurchase * itemPrice)
 
     if totalPrice > startingMoney:
@@ -125,6 +126,9 @@ Remaining Money:           ${leftover_money:,.2f}
 
 #Defining a function for the monsters portion of the assignment, with some funny descriptions sprinkled in there.
 def new_random_monster():
+    """
+    This function generates a new monster upon call. There are 3 available monster types with rng unique traits.
+    """
     monsters = [
         {
             "name": "Ghost",
