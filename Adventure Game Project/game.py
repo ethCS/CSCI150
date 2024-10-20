@@ -1,17 +1,12 @@
 """
 This module is where I will pull functions from gamefunctions.py and create a mini-text game.
+My game.py currently guides the player through a series of questions and string-based prompts. 
 
-It imports utility functions from the gamefunctions module to provide
-interactive gameplay for the player. They can input their name, view
-a shop menu, make purchases, and may even get a visit from rng monsters.
-
-Here is how my mini-game currently works:
-First: User will be prompted for their name.
-Second: Terminal will display a welcome message.
-Third: Terminal will show available items in the shop.
-Fourth: User will be prompted for their money amount as a float.
-Fifth: Prompts the user to purchase item based on their available money.
-Sixth: Generates and displays an rng monster with their description.
+My game allows for the player to: 
+* Enter their name
+* View a shop menu
+* Make purchases
+* Encounter randomly generated monsters
 """
 
 #--------------------------------------------------------------------
@@ -27,6 +22,27 @@ Sixth: Generates and displays an rng monster with their description.
 from gamefunctions import print_welcome, print_shop_menu, purchase_item, new_random_monster
 
 def main():
+    """
+    This function will serve as a mini-text based game to 
+    see if the imported functions from gamefunctions.py work. 
+
+    Here is how my mini-game currently works:
+    Step #1: User will be prompted for their name.
+    Step #2: Terminal will display a welcome message.
+    Step #3: Terminal will show available items in the shop.
+    Step #4: User will be prompted for their money amount as a float.
+    Step #5: Prompts the user to purchase item based on their available money.
+    Step #6: Generates and displays an rng monster with their description.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+
+    Example:
+        >>> main()
+    """
     name = input("Enter your name: ")
     print()
     print_welcome(name, 30)
