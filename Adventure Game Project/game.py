@@ -11,7 +11,7 @@ My game allows for the player to:
 
 #--------------------------------------------------------------------
 
-#gamefunctions.py
+#game.py
 #Ethan Elliott
 #October 20th, 2024
 #CSCI150 w/ Jeff
