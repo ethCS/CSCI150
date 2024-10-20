@@ -1,9 +1,28 @@
+"""This module has a purpose of defining various functions for game.py
+
+There are 5 working functions within this module, 
+which are defined below and also contain their own docstrings.
+These functions allow for (1): welcome message, (2): shop menu, 
+(3): purchasing items, (4): creating rng monsters, (5): Testing.
+
+One example of how to use this modules:
+
+'from gamefunctions import print_welcome'
+Then view function docstring for instructions.
+One example: 'print_welcome("Name", 30)'
+"""
+
+#--------------------------------------------------------------------
+
 #gamefunctions.py
 #Ethan Elliott
-#October 6th, 2024
+#October 20th, 2024
 #CSCI150 w/ Jeff
-#This is my upload for project Documentation and Strings
-#The purpose of this assignment is to learn about functions and how to use them.
+#The purpose of this module is defined in the docstring above.
+
+#--------------------------------------------------------------------
+
+
 
 #Here, I am importing random so I can use the random() commands.
 import random
@@ -11,40 +30,42 @@ import random
 #Creating line separation print for formatting purposes
 line_separation = ("*" * 75)
 
-print("Welcome to my program for creating and testing function calls.\n")
-print()
-print(line_separation)
+
+
 
 def print_welcome(name: str, width: int):
     """
-    This function prints a welcome message for the supplied 'name' parameter. The output is centered on within a 20-character field.
+    This function prints a welcome message for the supplied 'name' parameter. The output is centered within a 20-character field.
+    
+    Parameters:
+        name (str): The name of who will be welcomed.
+        width (int): Width amount for centering purposes.
+
+    Returns:
+        None
+
+    Example:
+        >>> print_welcome("Ethan", 30)
     """
     formatted_name = f"| {'Hello, ' + name + '!':^{width}} |"
     print(f"{formatted_name}")
 
-print(f'\nDocumentation and Strings: Part #1:')
 
-#3 calls to the print_welcome function to test functionality. i used the "|" symbol to show where it starts and ends. 
-print()
-print(f'\nGreeting Call #1:')
-print_welcome(name = "Ethan", width = 30)
-print(f'\nGreeting Call #2:')
-print_welcome(name = "Jeff", width = 40)
-print(f'\nGreeting Call #3:')
-print_welcome(name = "Lilith", width = 50)
-print()
-
-print(line_separation)
-print()
-
-print(f'\nDocumentation and Strings: Part #2:')
-
-#defining the shop menu for the user.
 def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Price: float):
     """
-    This function prints a sign that contains a list of two items and their corresponding prices. Items are left-aligned in the menu, while the prices are right-aligned (with decimal points lining up).
-    Prices are formatted to show 2 decimal places, and preceded with a dollar sign (with no space between the dollar sign and the price).
-    The item name field has 12 characters, and the item price field has 8 characters. The sign is surrounded with a nice border to differentiate it from other text.
+    This function prints a sign that contains a list of two items and their corresponding prices. 
+
+    Parameters:
+        item1Name (str): name of the 1st item.
+        item1Price (float): price of the 1st item.
+        item2Name (str): name of the 2nd item.
+        item2Price (float): price of the 2nd item.
+
+    Returns:
+        None
+
+    Example:
+        >>> print_shop_menu("Orange", 1.20, "Pomegranate", 0.70)
     """
     #this part is for basic formatting required to get the int as a float with decimals to 2 points prior to altering whitespace.
     item1Priced = f"${item1Price:.2f}"
@@ -59,21 +80,23 @@ def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Pric
     print(p2)
     print("\\----------------------/")
 
-#calling print_shop_menu 3 times for assignment req.
-print(f'\nShop Menu Call #1:')
-print_shop_menu("Apple", 15, "Pear", 2.521)
-print(f'\nShop Menu Call #2:')
-print_shop_menu("Egg", .78, "Pineapple", 4.24)
-print(f'\nShop Menu Call #3:')
-print_shop_menu("Bread", .21, "Watermelon", 8.29)
-
-
-#Pre-October assignments below (unmodified): Defining the function purchase_item, below, with 3 parameters, and declaring their type in the process.
-#Also making quantityToPurchase default to 1 if no proper value is passed through the parameter, which shouldn't ever happen imo.
 
 def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: int = 1):
     """
-    This function will return the number of items purchased and the quantity of money that is remaining. If unable to afford all the items, it will only buy as many as can be afforded. Nothing is printed by the function call.
+    This function will return the number of items purchased and the quantity of money that is remaining. 
+    If unable to afford all the items, it will only buy as many as can be afforded. Nothing is printed by the function call.
+
+    Parameters:
+        itemPrice (float): cost of one item.
+        startingMoney (float): amt of money to spend.
+        quantityToPurchase (int): num of items desired (default is 1).
+
+    Returns:
+        tuple: A tuple containing the num of items purchased and the remaining money.
+
+    Example:
+        >>> purchase_item(2.50, 10.00, 3)
+        (3, 2.50)
     """
     totalPrice = (quantityToPurchase * itemPrice)
 
@@ -88,46 +111,20 @@ def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: in
     leftover_money = startingMoney - quantityPurchased * itemPrice
     return quantityPurchased, leftover_money
 
-print(line_separation)
 
-#Labelling assignments numerically
-print(f'\nAdventure Functions: Part #1:')
-
-
-#Making a loop that executes 3 times for 3 unique calls. I chose random ranges for the variable values instead of input().
-for counter in range(4):
-    itemPrice = random.random() * 10.0
-    startingMoney = random.random() * 50.0
-    quantityToPurchase = random.randint(1,5)
-    quantityPurchased, leftover_money = purchase_item(itemPrice, startingMoney, quantityToPurchase)
-
-    if (counter == 3):
-        quantityToPurchase = 1
-        quantityPurchased, leftover_money = purchase_item(itemPrice, startingMoney)
-        print(f'{line_separation}')
-        print("\nBelow, you will find a test case for default value of 1.\nPrinting quantity to purchase as 1, but quantity purchased is not a passed value in the parameter of the function")
-
-#Spent some time on the formatting to make this look good, like Jeff showed in class involving the usage of whitespace.
-    print(f"""
-\n{line_separation}
-Money Call #{counter + 1}:
-Initial Quantity Desired:   x{quantityToPurchase}
-Amount Purchased:           x{quantityPurchased}
-Item Price:                ${itemPrice:,.2f}
-Starting Money:            ${startingMoney:,.2f}
-Remaining Money:           ${leftover_money:,.2f}
-""")
-
-
-
-#----------------------------------------------
-
-
-
-#Defining a function for the monsters portion of the assignment, with some funny descriptions sprinkled in there.
 def new_random_monster():
     """
-    This function generates a new monster upon call. There are 3 available monster types with rng unique traits.
+    This function generates a new monster when called. 
+    There are 3 available monster types with rng unique traits.
+
+    Parameters:
+        None
+
+    Returns:
+        dict: A dict w/ the monster's name, description, health, power, and money.
+
+    Example:
+        >>> new_random_monster()
     """
     monsters = [
         {
@@ -154,15 +151,71 @@ def new_random_monster():
     ]
     return random.choice(monsters)
 
-#Once again, I spent some time on the formatting to make this look good, like Jeff showed in class involving the usage of whitespace.
-print(f'\n{line_separation}\nAdventure Functions: Part #2:\n')
-
-for i in range(3):
-    monster = new_random_monster()
-    print(f"Monster Call #{i + 1}:")
-    print(f"Name:         {monster['name']}")
-    print(f"Description:  {monster['description']}")
-    print(f"Health:       {monster['health']}")
-    print(f"Power:        {monster['power']}")
-    print(f"Money:        ${monster['money']:.2f}\n")
+def test_functions() -> None:
+    """
+    The purpose of this function is to run tests 
+    for all other functions within this module.
+    Each one of the functions is called 3x times.
+    """
     print(line_separation)
+    print(f'\nBelow, there are 3x function call tests printed for each function within this module:\n')
+    print(line_separation)
+
+    print(f'\nTesting the print_welcome function:\n')
+    print(f'\nGreeting Call #1:')
+    print_welcome(name="Ethan", width=30)
+    print(f'\nGreeting Call #2:')
+    print_welcome(name="Jeff", width=40)
+    print(f'\nGreeting Call #3:')
+    print_welcome(name="Lilith", width=50)
+    print()
+    print(line_separation)
+
+    print(f'\nTesting the print_shop_menu function:\n')
+    print(f'\nShop Menu Call #1:')
+    print_shop_menu("Apple", 15, "Pear", 2.521)
+    print(f'\nShop Menu Call #2:')
+    print_shop_menu("Egg", 0.78, "Pineapple", 4.24)
+    print(f'\nShop Menu Call #3:')
+    print_shop_menu("Bread", 0.21, "Watermelon", 8.29)
+    print()
+    print(line_separation)
+
+    print(f'\nTesting the purchase_item function:\n')
+    for counter in range(4):
+        itemPrice = random.random() * 10.0
+        startingMoney = random.random() * 50.0
+        quantityToPurchase = random.randint(1, 5)
+        quantityPurchased, leftover_money = purchase_item(itemPrice, startingMoney, quantityToPurchase)
+
+        if counter == 3:
+            quantityToPurchase = 1
+            quantityPurchased, leftover_money = purchase_item(itemPrice, startingMoney)
+            print(f'{line_separation}')
+            print("\nBelow, you will find a test case for default value of 1.")
+
+        print(f"""
+        Money Call #{counter + 1}:
+        Initial Quantity Desired:   x{quantityToPurchase}
+        Amount Purchased:           x{quantityPurchased}
+        Item Price:                ${itemPrice:,.2f}
+        Starting Money:            ${startingMoney:,.2f}
+        Remaining Money:           ${leftover_money:,.2f}
+        """)
+    print()
+    print(line_separation)
+
+    print(f'\nTesting the new_random_monster function:\n')
+    for i in range(3):
+        monster = new_random_monster()
+        print(f"Monster Call #{i + 1}:")
+        print(f"Name:         {monster['name']}")
+        print(f"Description:  {monster['description']}")
+        print(f"Health:       {monster['health']}")
+        print(f"Power:        {monster['power']}")
+        print(f"Money:        ${monster['money']:.2f}\n")
+        print()
+        print(line_separation)
+
+if __name__ == "__main__":
+    test_functions()
