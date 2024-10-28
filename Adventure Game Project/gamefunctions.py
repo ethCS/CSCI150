@@ -1,9 +1,10 @@
 """This module has a purpose of defining various functions for game.py
 
-There are 5 working functions within this module, 
+There are various functions within this module,
 which are defined below and also contain their own docstrings.
-These functions allow for (1): welcome message, (2): shop menu, 
-(3): purchasing items, (4): creating rng monsters, (5): Testing.
+These functions allow for (1): welcome message, (2): shop menu,
+(3): purchasing items, (4): creating rng monsters, (5): fighting said monsters,
+(6): sleeping to gain health, and (7): Testing.
 
 One example of how to use this modules:
 
@@ -16,7 +17,7 @@ One example: 'print_welcome("Name", 30)'
 
 #gamefunctions.py
 #Ethan Elliott
-#October 20th, 2024
+#October 27th, 2024
 #CSCI150 w/ Jeff
 #The purpose of this module is defined in the docstring above.
 
@@ -34,7 +35,6 @@ line_separation = ("*" * 75)
 def print_welcome(name: str, width: int) -> None:
     """
     This function prints a welcome message for the supplied 'name' parameter. The output is centered within a 20-character field.
-    
     Parameters:
         name (str): The name of who will be welcomed.
         width (int): Width amount for centering purposes.
@@ -51,7 +51,7 @@ def print_welcome(name: str, width: int) -> None:
 
 def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Price: float) -> None:
     """
-    This function prints a sign that contains a list of two items and their corresponding prices. 
+    This function prints a sign that contains a list of two items and their corresponding prices.
 
     Parameters:
         item1Name (str): name of the 1st item.
@@ -81,7 +81,7 @@ def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Pric
 
 def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: int = 1) -> tuple:
     """
-    This function will return the number of items purchased and the quantity of money that is remaining. 
+    This function will return the number of items purchased and the quantity of money that is remaining.
     If unable to afford all the items, it will only buy as many as can be afforded. Nothing is printed by the function call.
 
     Parameters:
@@ -112,7 +112,7 @@ def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: in
 
 def new_random_monster() -> dict:
     """
-    This function generates a new monster when called. 
+    This function generates a new monster when called.
     There are 3 available monster types with rng unique traits.
 
     Parameters:
@@ -153,18 +153,18 @@ def new_random_monster() -> dict:
 def fight_monster(monster: dict, user_hp: int, user_gold: int) -> tuple:
     """
     The purpose of this function is to define the interaction between the
-    player and the monster when they are fighting. 
-    
+    player and the monster when they are fighting.
+
     Parameters:
         monster (dict): rng monster the player will fight.
         user_hp (int): current health that the player has.
         user_gold (int): how much money the player has.
-    
+
     Returns:
         A tuple: w/ new health+gold when finished fighting.
     """
     print(f"A wild {monster['name']} appears! {monster['description']}")
-    
+
     while user_hp > 0 and monster['health'] > 0:
         dmg_to_monster = random.randint(5, 15)
         monster['health'] -= dmg_to_monster
@@ -174,19 +174,19 @@ def fight_monster(monster: dict, user_hp: int, user_gold: int) -> tuple:
             print(f"You killed the {monster['name']}! GG.")
             user_gold += monster['money']
             return user_hp, user_gold
-        
+
         dmg_to_user = random.randint(3, monster['power'])
         user_hp -= dmg_to_user
         print(f"The {monster['name']} dealt {dmg_to_user} damage to you. Your health: {user_hp}")
 
         if user_hp <= 0:
             print("You died! RIP. F's in chat.")
-            return 0, user_gold 
+            return 0, user_gold
 
         keep_fighting_choice = input("What do you want to do now?\n Option 1: Keep fighting\n Option 2: Run away\n")
         if keep_fighting_choice == '2':
             print("You left the battle. Coward!")
-            return user_hp, user_gold 
+            return user_hp, user_gold
 
     return user_hp, user_gold
 
@@ -208,7 +208,7 @@ def sleep(user_hp: int, user_gold: int) -> tuple:
     cost = 5
     if user_gold >= cost:
         user_hp += 10
-        user_gold -= cost 
+        user_gold -= cost
         print(f"ZzzZzZZzzZz... ZzzZzz.. \nYou gained 10 HP. Current health: {user_hp}, Current Gold: {user_gold}")
     else:
         print("You can't afford to sleep. You need 5 gold.")
@@ -219,7 +219,7 @@ def sleep(user_hp: int, user_gold: int) -> tuple:
 
 def test_functions() -> None:
     """
-    The purpose of this function is to run tests 
+    The purpose of this function is to run tests
     for all other functions within this module.
     Each one of the functions is called 3x times.
     """
