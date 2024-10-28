@@ -31,9 +31,7 @@ import random
 line_separation = ("*" * 75)
 
 
-
-
-def print_welcome(name: str, width: int):
+def print_welcome(name: str, width: int) -> None:
     """
     This function prints a welcome message for the supplied 'name' parameter. The output is centered within a 20-character field.
     
@@ -51,7 +49,7 @@ def print_welcome(name: str, width: int):
     print(f"{formatted_name}")
 
 
-def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Price: float):
+def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Price: float) -> None:
     """
     This function prints a sign that contains a list of two items and their corresponding prices. 
 
@@ -81,7 +79,7 @@ def print_shop_menu(item1Name: str, item1Price: float, item2Name: str, item2Pric
     print("\\----------------------/")
 
 
-def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: int = 1):
+def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: int = 1) -> tuple:
     """
     This function will return the number of items purchased and the quantity of money that is remaining. 
     If unable to afford all the items, it will only buy as many as can be afforded. Nothing is printed by the function call.
@@ -112,7 +110,7 @@ def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: in
     return quantityPurchased, leftover_money
 
 
-def new_random_monster():
+def new_random_monster() -> dict:
     """
     This function generates a new monster when called. 
     There are 3 available monster types with rng unique traits.
@@ -129,27 +127,95 @@ def new_random_monster():
     monsters = [
         {
             "name": "Ghost",
-            "description": "This spooky Ghost will haunt you when the sunlight disappears. That is, if he isn't running errands.",
-            "health": random.randint(1, 85),
-            "power": random.randint(1, 80),
-            "money": round(random.random() * 99, 2)
+            "description": "This spooky Ghost will haunt you when the sunlight disappears.",
+            "health": random.randint(20, 40),
+            "power": random.randint(5, 10),
+            "money": round(random.random() * 20, 2)
         },
         {
             "name": "Demon",
-            "description": "This terrifying demonic presence will invoke terror in the eyes of all who dare come near. Or maybe he's just shy?",
-            "health": random.randint(1, 100),
-            "power": random.randint(1, 70),
-            "money": round(random.random() * 98, 2)
+            "description": "This terrifying demonic presence will invoke terror.",
+            "health": random.randint(25, 50),
+            "power": random.randint(7, 12),
+            "money": round(random.random() * 30, 2)
         },
         {
             "name": "Mysterious Black Cat",
-            "description": "This evil cat may seem cute on the surface, yet beware, as one meow can determine your fate. You don't want to see what a purr does...",
-            "health": random.randint(1, 60),
-            "power": random.randint(1, 75),
-            "money": round(random.random() * 100, 2)
+            "description": "This evil cat may seem cute, yet beware.",
+            "health": random.randint(15, 35),
+            "power": random.randint(4, 8),
+            "money": round(random.random() * 15, 2)
         }
     ]
     return random.choice(monsters)
+
+
+def fight_monster(monster: dict, user_hp: int, user_gold: int) -> tuple:
+    """
+    The purpose of this function is to define the interaction between the
+    player and the monster when they are fighting. 
+    
+    Parameters:
+        monster (dict): rng monster the player will fight.
+        user_hp (int): current health that the player has.
+        user_gold (int): how much money the player has.
+    
+    Returns:
+        A tuple: w/ new health+gold when finished fighting.
+    """
+    print(f"A wild {monster['name']} appears! {monster['description']}")
+    
+    while user_hp > 0 and monster['health'] > 0:
+        dmg_to_monster = random.randint(5, 15)
+        monster['health'] -= dmg_to_monster
+        print(f"You hit the {monster['name']} for {dmg_to_monster} dmg.")
+
+        if monster['health'] <= 0:
+            print(f"You killed the {monster['name']}! GG.")
+            user_gold += monster['money']
+            return user_hp, user_gold
+        
+        dmg_to_user = random.randint(3, monster['power'])
+        user_hp -= dmg_to_user
+        print(f"The {monster['name']} dealt {dmg_to_user} damage to you. Your health: {user_hp}")
+
+        if user_hp <= 0:
+            print("You died! RIP. F's in chat.")
+            return 0, user_gold 
+
+        keep_fighting_choice = input("What do you want to do now?\n Option 1: Keep fighting\n Option 2: Run away\n")
+        if keep_fighting_choice == '2':
+            print("You left the battle. Coward!")
+            return user_hp, user_gold 
+
+    return user_hp, user_gold
+
+
+
+
+def sleep(user_hp: int, user_gold: int) -> tuple:
+    """
+    The purpose of this function is to increase the player health if 
+    they decide to sleep, at the cost of 5 gold. They will gain 10 health in return.
+
+    Parameters:
+        user_hp: current health of the user.
+        user_gold: current gold the user has.
+
+    Returns:
+        tuple: this should output the gold after sleeping.
+    """
+    cost = 5
+    if user_gold >= cost:
+        user_hp += 10
+        user_gold -= cost 
+        print(f"ZzzZzZZzzZz... ZzzZzz.. \nYou gained 10 HP. Current health: {user_hp}, Current Gold: {user_gold}")
+    else:
+        print("You can't afford to sleep. You need 5 gold.")
+    return user_hp, user_gold
+
+
+
 
 def test_functions() -> None:
     """
