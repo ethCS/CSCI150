@@ -24,7 +24,7 @@ One example: 'print_welcome("Name", 30)'
 #--------------------------------------------------------------------
 
 #Here, I am importing random so I can use the random() commands.
-import random
+import random, json
 
 #Creating line separation print for formatting purposes
 line_separation = print("*" * 75)
@@ -108,6 +108,54 @@ def purchase_item(itemPrice: float, startingMoney: float, quantityToPurchase: in
 
     leftover_money = startingMoney - totalPrice
     return quantityPurchased, leftover_money
+
+def json_save_game(name: str, user_hp: int, user_gold: float, inventory: dict) -> None:
+    """
+    Saves the current game state to a JSON file.
+
+    Parameters:
+        name (str): Player's name
+        user_hp (int): Current health points
+        user_gold (float): Current gold amount
+        inventory (dict): Current inventory state
+
+    Returns:
+        None
+    """
+    import json
+
+    game_info = {
+        "player_name": name,
+        "health": user_hp,
+        "gold": user_gold,
+        "inventory": inventory
+    }
+
+    with open(f"{name}_savegame.json", "w") as save_file:
+        json.dump(game_info, save_file)
+    print(f"\nGame saved successfully for {name}!")
+
+def json_load_game() -> tuple:
+    """
+    This function can be called to load a save from a json file.
+
+    Returns:
+        tuple: (name, health, gold, inventory) or None if load fails
+    """
+    import json
+
+    player_name = input("\nEnter your character name to load: ").strip()
+
+    with open(f"{player_name}_savegame.json", "r") as load_file:
+        game_info = json.load(load_file)
+
+    name = game_info["player_name"]
+    health = game_info["health"]
+    gold = game_info["gold"]
+    inventory = game_info["inventory"]
+
+    print(f"\nGame loaded successfully for {name}!")
+    return name, health, gold, inventory
 
 def shop(name: str, user_gold: float, if_show_view_shop_prompt, inventory) -> float:
     """

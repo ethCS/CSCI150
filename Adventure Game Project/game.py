@@ -8,32 +8,54 @@ My game allows for the player to:
 * Encounter randomly generated monsters
 * Decide their fate
 """
-from gamefunctions import print_welcome, print_shop_menu, purchase_item, new_random_monster, fight_monster, sleep, shop, print_inventory, equip_item
+from gamefunctions import (print_welcome, print_shop_menu, purchase_item, new_random_monster, fight_monster, sleep, shop, print_inventory, equip_item, json_save_game, json_load_game)
 
-#Here are the global variables that define the initial health and currency.
-user_hp = 50
-user_gold = 10
+#Starting stats
+health = 50
+gold = 10
 inventory = {}
 
-#Getting user name
-name = input("Enter your name: ")
-print_welcome(name, 30)
-print(f"Health: {user_hp}, Gold: {user_gold}\n")
+# Let player choose to load a saved game or start new
+player_choice = input("Choose: (n)ew game | (l)oad game? ").strip().lower()
+if player_choice == 'l':
+    saved_game = json_load_game()
+    if saved_game:
+        player_name, health, gold, inventory = saved_game
+        print(f"Health: {health}, Gold: {gold}\n")
+        updated_gold = shop(player_name, gold, True, inventory)
+        gold = updated_gold
+    else:
+        print("No load detected... Creating new game.\n(New Game)")
+        player_name = input("Enter new name:\n")
+        print_welcome(player_name, 30)
+        print(f"Health: {health}, Gold: {gold}\n")
+        updated_gold = shop(player_name, gold, True, inventory)
+        gold = updated_gold
+else:
+    player_name = input("Enter your name: ")
+    print_welcome(player_name, 30)
+    print(f"Health: {health}, Gold: {gold}\n")
+    updated_gold = shop(player_name, gold, True, inventory)
+    gold = updated_gold
 
-#This is the shop functionality
-money = shop(name, user_gold, True, inventory)
-user_gold = money
-
-def main() -> None:
+# Define main game loop function
+def main(player_name: str, health: int, gold: float, inventory: dict) -> tuple:
     """
     This function will serve as a very basic game that allows the player
     to interact with a menu and choose options to fight, sleep, or quit.
+
+    Parameters:
+        player_name (str): Name of the player
+        health (int): Current health points
+        gold (float): Current gold amount
+        inventory (dict): Player's inventory
+
+    Returns:
+        tuple: Updated (health, gold, inventory)
     """
-
-    global name, user_hp, user_gold
-
-    while True:
-        print(f"Health: {user_hp}, Gold: {user_gold}\n")
+    playing = True
+    while playing:
+        print(f"Health: {health}, Gold: {gold}\n")
 
         print("""What would you like to do?\n
             1) Fight Monster\n
@@ -41,26 +63,34 @@ def main() -> None:
             3) Enter Shop\n
             4) View Inventory\n
             5) Equip Item\n
-            6) Quit Game\n""")
+            6) Save and Quit\n
+            7) Quit Without Saving\n""")
 
-        choice = input("Choose from options 1-6: ").strip()
+        choice = input("Choose from options 1-7: ").strip()
         if choice == '1':
             monster = new_random_monster()
-            user_hp, user_gold = fight_monster(monster, user_hp, user_gold, inventory)
+            health, gold = fight_monster(monster, health, gold, inventory)
         elif choice == '2':
-            user_hp, user_gold = sleep(user_hp, user_gold)
+            health, gold = sleep(health, gold)
         elif choice == '3':
-            money = shop(name, user_gold, False, inventory)
-            user_gold = money
+            updated_gold = shop(player_name, gold, False, inventory)
+            gold = updated_gold
         elif choice == '4':
             print_inventory(inventory)
         elif choice == '5':
             equip_item(inventory)
         elif choice == '6':
+            json_save_game(player_name, health, gold, inventory)
             print("Thanks for playing.\n")
-            break
+            playing = False
+        elif choice == '7':
+            print("Thanks for playing.\n")
+            playing = False
         else:
-            print("That won't work. Try again with an option from 1-6.\n")
+            print("That won't work. Try again with an option from 1-7.\n")
 
+    return health, gold, inventory
+
+# Start the game
 if __name__ == "__main__":
-    main()
+    health, gold, inventory = main(player_name, health, gold, inventory)
