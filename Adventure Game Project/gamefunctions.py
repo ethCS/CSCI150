@@ -447,7 +447,7 @@ def fight_monster(monster: dict, user_hp: int, user_gold: int, inventory: dict) 
         if monster['health'] <= 0:
             print(f"You killed the {monster['name']}! GG.\n")
             user_gold += monster['money']
-            return user_hp, user_gold
+            return user_hp, user_gold  # Return here instead of continuing to ask for input
 
         dmg_to_user = random.randint(3, monster['power'])
         user_hp -= dmg_to_user
@@ -466,7 +466,7 @@ def fight_monster(monster: dict, user_hp: int, user_gold: int, inventory: dict) 
 
 def sleep(user_hp: int, user_gold: int) -> tuple:
     """
-    The purpose of this function is to increase the player health if 
+    The purpose of this function is to increase the player health if
     they decide to sleep, at the cost of 5 gold. They will gain 10 health in return.
 
     Parameters:

@@ -9,13 +9,13 @@ My game allows for the player to:
 * Decide their fate
 """
 from gamefunctions import (print_welcome, print_shop_menu, purchase_item, new_random_monster, fight_monster, sleep, shop, print_inventory, equip_item, json_save_game, json_load_game)
+from gameGraphics import MonsterUIHandler
 
 #Starting stats
 health = 50
 gold = 10
 inventory = {}
 
-# Let player choose to load a saved game or start new
 player_choice = input("Choose: (n)ew game | (l)oad game? ").strip().lower()
 if player_choice == 'l':
     saved_game = json_load_game()
@@ -38,7 +38,6 @@ else:
     updated_gold = shop(player_name, gold, True, inventory)
     gold = updated_gold
 
-# Define main game loop function
 def main(player_name: str, health: int, gold: float, inventory: dict) -> tuple:
     """
     This function will serve as a very basic game that allows the player
@@ -54,6 +53,7 @@ def main(player_name: str, health: int, gold: float, inventory: dict) -> tuple:
         tuple: Updated (health, gold, inventory)
     """
     playing = True
+    monster_ui_handler = MonsterUIHandler()
     while playing:
         print(f"Health: {health}, Gold: {gold}\n")
 
@@ -68,8 +68,7 @@ def main(player_name: str, health: int, gold: float, inventory: dict) -> tuple:
 
         choice = input("Choose from options 1-7: ").strip()
         if choice == '1':
-            monster = new_random_monster()
-            health, gold = fight_monster(monster, health, gold, inventory)
+            monster_ui_handler.run_game_ui()
         elif choice == '2':
             health, gold = sleep(health, gold)
         elif choice == '3':
@@ -91,6 +90,5 @@ def main(player_name: str, health: int, gold: float, inventory: dict) -> tuple:
 
     return health, gold, inventory
 
-# Start the game
 if __name__ == "__main__":
     health, gold, inventory = main(player_name, health, gold, inventory)
